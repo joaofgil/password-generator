@@ -41,6 +41,7 @@ function updateOptions() {
   options.similars = document.getElementById('similars').checked
   updateCharPool()
   updateSubmitButton()
+  generatesRandomPasswords()
 }
 
 function updatePasswordCount() {
@@ -54,6 +55,7 @@ function updatePasswordCount() {
     document.getElementById('password-count').value = 20;
   }
   NUMBER_OF_PASSWORDS_TO_GENERATE = inputValue;
+  generatesRandomPasswords()
 }
 function updatePasswordlength(){
   let inputValue = Number(document.getElementById('password-length').value);
@@ -66,6 +68,7 @@ function updatePasswordlength(){
     document.getElementById('password-length').value = 100;
   }
   PASSWORD_LENGTH = inputValue;
+  generatesRandomPasswords()
 }
 
 function generatesRandomPasswords() {
@@ -120,4 +123,3 @@ function copyPassword(passwordId) {
   document.execCommand('Copy');
 }
 updateOptions();
-generatesRandomPasswords();

@@ -55,7 +55,7 @@
 
 .center-content h1 {
   color: #2c509e;
-  font-size: 5em;
+  font-size: 2em;
   font-weight: 700;
   text-align: left;
   line-height: 1.1em;
@@ -225,5 +225,8 @@
 
 .center-results {
   width: 50%;
-  margin: 50% 25%;
+  margin: 25% 25%;
+}
+#password-length{
+  width: 10%;
 }

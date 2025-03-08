@@ -18,7 +18,9 @@ const lowerCasesNoSimilar = 'abcdefghijkmnopqrstuvwxyz'
 const symbolsNoSimilar = '?#$%&*+-='
 
 const NUMBER_OF_PASSWORDS_TO_GENERATE = 3
-const PASSWORD_LENGTH = 12
+let PASSWORD_LENGTH = 15
+
+document.getElementById('password-length').value = PASSWORD_LENGTH;
 
 let charPool = numbers + upperCases + lowerCases + symbols
 
@@ -55,6 +57,7 @@ document.getElementById('similars').addEventListener('change', function () {
 document.getElementById('submit-btn').addEventListener('click', generatesRandomPasswords)
 
 function generatesRandomPasswords() {
+  PASSWORD_LENGTH = Number(document.getElementById('password-length').value);
   const randomPasswords = []
   for (let i = 0; i < NUMBER_OF_PASSWORDS_TO_GENERATE; i++) {
     randomPasswords
@@ -106,3 +109,4 @@ function copyPassword(password) {
   document.getElementById(password).select()
   document.execCommand('Copy')
 }
+generatesRandomPasswords();

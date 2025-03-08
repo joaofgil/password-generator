@@ -3,7 +3,7 @@ const options = {
   uppercases: true,
   lowercases: true,
   symbols: true,
-  similars: false
+  similars: true
 }
 
 const numbers = '1234567890'
@@ -11,68 +11,78 @@ const upperCases = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 const lowerCases = 'abcdefghijklmnopqrstuvwxyz'
 const symbols = '!?#$%&*+-='
 
-// Similar characters are : 1lI! 0OQ 8B
 const numbersNoSimilar = '2345679'
 const upperCasesNoSimilar = 'ACDEFGHJKLMNPRSTUVWXYZ'
 const lowerCasesNoSimilar = 'abcdefghijkmnopqrstuvwxyz'
 const symbolsNoSimilar = '?#$%&*+-='
 
-const NUMBER_OF_PASSWORDS_TO_GENERATE = 3
 let PASSWORD_LENGTH = 15
+let NUMBER_OF_PASSWORDS_TO_GENERATE = 1
 
 document.getElementById('password-length').value = PASSWORD_LENGTH;
+document.getElementById('password-count').value = NUMBER_OF_PASSWORDS_TO_GENERATE;
 
 let charPool = numbers + upperCases + lowerCases + symbols
 
-document.getElementById('numbers').addEventListener('change', function () {
-  options.numbers = this.checked
-  updateCharPool()
-  updateSubmitButton()
-})
-
-document.getElementById('uppercases').addEventListener('change', function () {
-  options.uppercases = this.checked
-  updateCharPool()
-  updateSubmitButton()
-})
-
-document.getElementById('lowercases').addEventListener('change', function () {
-  options.lowercases = this.checked
-  updateCharPool()
-  updateSubmitButton()
-})
-
-document.getElementById('symbols').addEventListener('change', function () {
-  options.symbols = this.checked
-  updateCharPool()
-  updateSubmitButton()
-})
-
-document.getElementById('similars').addEventListener('change', function () {
-  options.similars = this.checked
-  updateCharPool()
-  updateSubmitButton()
-})
-
+document.getElementById('numbers').addEventListener('change', updateOptions)
+document.getElementById('uppercases').addEventListener('change', updateOptions)
+document.getElementById('lowercases').addEventListener('change', updateOptions)
+document.getElementById('symbols').addEventListener('change', updateOptions)
+document.getElementById('similars').addEventListener('change', updateOptions)
+document.getElementById('password-length').addEventListener('change', updatePasswordlength)
+document.getElementById('password-count').addEventListener('change', updatePasswordCount)
 document.getElementById('submit-btn').addEventListener('click', generatesRandomPasswords)
 
+function updateOptions() {
+  options.numbers = document.getElementById('numbers').checked
+  options.uppercases = document.getElementById('uppercases').checked
+  options.lowercases = document.getElementById('lowercases').checked
+  options.symbols = document.getElementById('symbols').checked
+  options.similars = document.getElementById('similars').checked
+  updateCharPool()
+  updateSubmitButton()
+}
+
+function updatePasswordCount() {
+  let inputValue = Number(document.getElementById('password-count').value);
+  if(inputValue<1){
+    inputValue =1;
+    document.getElementById('password-count').value = 1;
+  }
+  if(inputValue>20){
+    inputValue = 20;
+    document.getElementById('password-count').value = 20;
+  }
+  NUMBER_OF_PASSWORDS_TO_GENERATE = inputValue;
+}
+function updatePasswordlength(){
+  let inputValue = Number(document.getElementById('password-length').value);
+  if(inputValue<5){
+    inputValue =5;
+    document.getElementById('password-length').value = 5;
+  }
+  if(inputValue>100){
+    inputValue = 100;
+    document.getElementById('password-length').value = 100;
+  }
+  PASSWORD_LENGTH = inputValue;
+}
+
 function generatesRandomPasswords() {
-  PASSWORD_LENGTH = Number(document.getElementById('password-length').value);
   const randomPasswords = []
   for (let i = 0; i < NUMBER_OF_PASSWORDS_TO_GENERATE; i++) {
-    randomPasswords
-      .push(Array(PASSWORD_LENGTH)
-        .fill(charPool)
-        .map(x => x[Math.floor(Math.random() * x.length)])
-        .join('')
-      )
+    randomPasswords.push(Array(PASSWORD_LENGTH)
+      .fill(charPool)
+      .map(x => x[Math.floor(Math.random() * x.length)])
+      .join('')
+    )
   }
   showResults(randomPasswords)
 }
 
 function updateCharPool() {
   charPool = ''
-  if (options.similars) { // if true, we don't include similar characters
+  if (options.similars) {
     if (options.numbers) { charPool += numbersNoSimilar }
     if (options.uppercases) { charPool += upperCasesNoSimilar }
     if (options.lowercases) { charPool += lowerCasesNoSimilar }
@@ -85,28 +95,29 @@ function updateCharPool() {
   }
 }
 
-// Desactivate the generate button if the charPool is empty
 function updateSubmitButton() {
-  if (
-    !options.numbers
-    && !options.uppercases
-    && !options.lowercases
-    && !options.symbols
-  ) {
-    document.getElementById('submit-btn').classList.add('inactive')
-  } else {
-    document.getElementById('submit-btn').classList.remove('inactive')
-  }
+  document.getElementById('submit-btn').disabled = !(options.numbers || options.uppercases || options.lowercases || options.symbols);
 }
 
 function showResults(randomPasswords) {
-  document.getElementById('password-1').value = randomPasswords[0]
-  document.getElementById('password-2').value = randomPasswords[1]
-  document.getElementById('password-3').value = randomPasswords[2]
+  const resultContainer = document.querySelector('.center-results')
+  resultContainer.innerHTML = ''
+  
+  randomPasswords.forEach((password, index) => {
+    const passwordDiv = document.createElement('div')
+    passwordDiv.classList.add('flex-container', 'password-result')
+    passwordDiv.innerHTML = `
+      <input type="text" id="password-${index}" value="${password}" spellcheck="false">
+      <button class="btn copy-btn no-wrap" onclick="copyPassword('password-${index}')">Copy</button>
+    `
+    resultContainer.appendChild(passwordDiv)
+  })
 }
 
-function copyPassword(password) {
-  document.getElementById(password).select()
-  document.execCommand('Copy')
+function copyPassword(passwordId) {
+  const passwordField = document.getElementById(passwordId);
+  passwordField.select();
+  document.execCommand('Copy');
 }
+updateOptions();
 generatesRandomPasswords();

@@ -20,7 +20,6 @@ let PASSWORD_LENGTH = 15
 let NUMBER_OF_PASSWORDS_TO_GENERATE = 1
 
 document.getElementById('password-length').value = PASSWORD_LENGTH;
-document.getElementById('password-count').value = NUMBER_OF_PASSWORDS_TO_GENERATE;
 
 let charPool = numbers + upperCases + lowerCases + symbols
 
@@ -30,7 +29,6 @@ document.getElementById('lowercases').addEventListener('change', updateOptions)
 document.getElementById('symbols').addEventListener('change', updateOptions)
 document.getElementById('similars').addEventListener('change', updateOptions)
 document.getElementById('password-length').addEventListener('change', updatePasswordlength)
-document.getElementById('password-count').addEventListener('change', updatePasswordCount)
 document.getElementById('submit-btn').addEventListener('click', generatesRandomPasswords)
 
 function updateOptions() {
@@ -44,19 +42,6 @@ function updateOptions() {
   generatesRandomPasswords()
 }
 
-function updatePasswordCount() {
-  let inputValue = Number(document.getElementById('password-count').value);
-  if(inputValue<1){
-    inputValue =1;
-    document.getElementById('password-count').value = 1;
-  }
-  if(inputValue>20){
-    inputValue = 20;
-    document.getElementById('password-count').value = 20;
-  }
-  NUMBER_OF_PASSWORDS_TO_GENERATE = inputValue;
-  generatesRandomPasswords()
-}
 function updatePasswordlength(){
   let inputValue = Number(document.getElementById('password-length').value);
   if(inputValue<5){

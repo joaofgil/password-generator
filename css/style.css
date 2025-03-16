@@ -49,7 +49,7 @@ body{
 }
 
 .center-content {
-  width: 500px;
+  width: 600px;
   margin: 70px auto;
 }
 
@@ -82,7 +82,7 @@ body{
 .checkmark {
   position: absolute;
   top: 8px;
-  left: 482px;
+  left: 582px;
   height: 18px;
   width: 18px;
   background-color: #ddd;
@@ -174,7 +174,6 @@ body{
 }
 
 .password-result {
-  margin: auto;
   margin-left:0px;
   width: auto;
   display: flex;
@@ -210,7 +209,7 @@ body{
 
 .center-results {
   height: 5.5vh;
-  width: 75%;
+  width: 80%;
   overflow-y: auto; 
   display: flex;
   flex-direction: column;
@@ -219,7 +218,7 @@ body{
 #password-length, #password-count{
   opacity: 1;
   position: absolute;
-  left: 472px;
+  left: 572px;
   top:5px;
   width: 1.2em;
   height: 1.2em;

@@ -16,7 +16,7 @@ const upperCasesNoSimilar = 'ACDEFGHJKLMNPRSTUVWXYZ'
 const lowerCasesNoSimilar = 'abcdefghijkmnopqrstuvwxyz'
 const symbolsNoSimilar = '?#$%&*+-='
 
-let PASSWORD_LENGTH = 15
+let PASSWORD_LENGTH = 20
 let NUMBER_OF_PASSWORDS_TO_GENERATE = 1
 
 document.getElementById('password-length').value = PASSWORD_LENGTH;
